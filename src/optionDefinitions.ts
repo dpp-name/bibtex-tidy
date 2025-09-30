@@ -474,6 +474,15 @@ export const optionDefinitions: OptionDefinition[] = [
 		type: "boolean",
 		defaultValue: true,
 	},
+    {
+		key: "lowercaseFields",
+		cli: { "--lowercase-fields": false },
+		toCLI: (val) => (val === false ? "--lowercase-fields" : undefined),
+		title: "Lowercase fields only",
+		description: ["Lowercase field names only. Disabled by default."],
+		type: "boolean",
+		defaultValue: false,
+	},
 	{
 		key: "enclosingBraces",
 		cli: {

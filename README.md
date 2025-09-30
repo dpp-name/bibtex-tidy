@@ -210,6 +210,9 @@ bibtex-tidy references.bib
   --no-lowercase
       Lowercase field names and entry type. Enabled by default.
       
+  --lowercase-fields
+      Lowercase field names only. Disabled by default.
+      
   --enclosing-braces
       Enclose the given fields in double braces, such that case is preserved during
       BibTeX compilation.

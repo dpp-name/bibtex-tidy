@@ -81,6 +81,9 @@ export function generateTransformPipeline(
 			createLowercaseFieldsTransform(),
 		);
 	}
+    if (options.lowercaseFields) {
+		pipeline.push(createLowercaseFieldsTransform());
+	}
 	if (options.merge || options.duplicates) {
 		pipeline.push(
 			createMergeEntriesTransform(options.duplicates, options.merge),
