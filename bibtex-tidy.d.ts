@@ -232,6 +232,100 @@ export type BibTeXTidyOptions = {
 };
 export type Options = Omit<BibTeXTidyOptions, "help" | "version" | "quiet" | "backup">;
 export type DuplicateRule = Exclude<BibTeXTidyOptions["duplicates"], boolean | undefined>[number];
+declare class RootNode {
+	type: "root";
+	children: (TextNode | BlockNode)[];
+	constructor(children?: (TextNode | BlockNode)[]);
+}
+declare class TextNode {
+	type: "text";
+	parent: RootNode;
+	text: string;
+	whitespacePrefix: string;
+	constructor(parent: RootNode, text: string, whitespacePrefix: string);
+}
+declare class BlockNode {
+	type: "block";
+	command: string;
+	block?: CommentNode | PreambleNode | StringNode | EntryNode;
+	parent: RootNode;
+	whitespacePrefix: string;
+	constructor(parent: RootNode, whitespacePrefix: string);
+}
+declare class CommentNode {
+	type: "comment";
+	parent: BlockNode;
+	raw: string;
+	braces: number;
+	parens: number;
+	constructor(parent: BlockNode, raw: string, braces: number, parens: number);
+}
+declare class PreambleNode {
+	type: "preamble";
+	parent: BlockNode;
+	raw: string;
+	braces: number;
+	parens: number;
+	constructor(parent: BlockNode, raw: string, braces: number, parens: number);
+}
+declare class StringNode {
+	type: "string";
+	parent: BlockNode;
+	raw: string;
+	braces: number;
+	parens: number;
+	constructor(parent: BlockNode, raw: string, braces: number, parens: number);
+}
+declare class EntryNode {
+	type: "entry";
+	key?: string;
+	keyEnded?: boolean;
+	fields: FieldNode[];
+	parent: BlockNode;
+	wrapType: "{" | "(";
+	constructor(parent: BlockNode, wrapType: "{" | "(");
+}
+declare class FieldNode {
+	type: "field";
+	/** Each value is concatenated */
+	value: ConcatNode;
+	hasComma: boolean;
+	parent: EntryNode;
+	name: string;
+	whitespacePrefix: string;
+	constructor(parent: EntryNode, name?: string, whitespacePrefix?: string);
+}
+declare class ConcatNode {
+	type: "concat";
+	concat: (LiteralNode | BracedNode | QuotedNode)[];
+	canConsumeValue: boolean;
+	whitespacePrefix: string;
+	parent: FieldNode;
+	constructor(parent: FieldNode);
+}
+declare class LiteralNode {
+	type: "literal";
+	parent: ConcatNode;
+	value: string;
+	constructor(parent: ConcatNode, value: string);
+}
+declare class BracedNode {
+	type: "braced";
+	value: string;
+	/** Used to count opening and closing braces */
+	depth: number;
+	parent: ConcatNode;
+	constructor(parent: ConcatNode);
+}
+declare class QuotedNode {
+	type: "quoted";
+	value: string;
+	/** Used to count opening and closing braces */
+	depth: number;
+	parent: ConcatNode;
+	constructor(parent: ConcatNode);
+}
+export declare function parseBibTeX(input: string): RootNode;
 export type Warning = ({
 	code: "MISSING_KEY";
 } | {

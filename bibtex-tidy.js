@@ -5076,5 +5076,6 @@ function tidy(input, options_ = {}) {
 }
 __name(tidy, "tidy");
 export {
+  parseBibTeX,
   tidy
 };
