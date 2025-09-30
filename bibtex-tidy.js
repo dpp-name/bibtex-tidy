@@ -779,6 +779,15 @@ var optionDefinitions = [
     defaultValue: false
   },
   {
+    key: "capitalizeEntryTypes",
+    cli: { "--capitalize-entry-types": false },
+    toCLI: /* @__PURE__ */ __name((val) => val === false ? "--capitalize-entry-types" : void 0, "toCLI"),
+    title: "Capitalize entry types",
+    description: ["Capitalize entry types: `Article`, `InCollection`, `PhDThesis`. Disabled by default."],
+    type: "boolean",
+    defaultValue: false
+  },
+  {
     key: "enclosingBraces",
     cli: {
       "--enclosing-braces": /* @__PURE__ */ __name((args) => args.length > 0 ? args : true, "--enclosing-braces")
@@ -4948,6 +4957,47 @@ ${indent}`;
 }
 __name(createWrapValuesTransform, "createWrapValuesTransform");
 
+// src/transforms/capitalizeEntryTypes.ts
+var entryTypes = [
+  "Article",
+  "Book",
+  "Booklet",
+  "Conference",
+  "InBook",
+  "InCollection",
+  "InProceedings",
+  "Manual",
+  "MastersThesis",
+  "Misc",
+  "PhDThesis",
+  "Proceedings",
+  "TechReport",
+  "Unpublished"
+];
+var entryTypesMap = {};
+for (const entryType of entryTypes) {
+  entryTypesMap[entryType.toLocaleLowerCase()] = entryType;
+}
+function capitalize2(type) {
+  if (!type) {
+    return type;
+  }
+  return entryTypesMap[type.toLocaleLowerCase()] ?? type[0]?.toLocaleUpperCase() + type.substring(1).toLocaleLowerCase();
+}
+__name(capitalize2, "capitalize");
+function createCapitalizeEntryTypesTransform() {
+  return {
+    name: "capitalize-entry-type",
+    apply: /* @__PURE__ */ __name((ast) => {
+      for (const entry of ast.entries()) {
+        entry.parent.command = capitalize2(entry.parent.command);
+      }
+      return void 0;
+    }, "apply")
+  };
+}
+__name(createCapitalizeEntryTypesTransform, "createCapitalizeEntryTypesTransform");
+
 // src/pipeline.ts
 function sortPipeline(Transforms) {
   const sorted = [];
@@ -4994,6 +5044,9 @@ function generateTransformPipeline(options) {
   }
   if (options.lowercaseFields) {
     pipeline.push(createLowercaseFieldsTransform());
+  }
+  if (options.capitalizeEntryTypes) {
+    pipeline.push(createCapitalizeEntryTypesTransform());
   }
   if (options.merge || options.duplicates) {
     pipeline.push(
@@ -5077,5 +5130,6 @@ function tidy(input, options_ = {}) {
 __name(tidy, "tidy");
 export {
   parseBibTeX,
+  parseLaTeX,
   tidy
 };

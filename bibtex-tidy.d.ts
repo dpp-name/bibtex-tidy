@@ -194,6 +194,12 @@ export type BibTeXTidyOptions = {
 	 */
 	lowercaseFields?: boolean;
 	/**
+	 * Capitalize entry types
+	 *
+	 * Capitalize entry types: `Article`, `InCollection`, `PhDThesis`. Disabled by default.
+	 */
+	capitalizeEntryTypes?: boolean;
+	/**
 	 * Enclose values in double braces
 	 *
 	 * Enclose the given fields in double braces, such that case is preserved during BibTeX compilation.
@@ -340,5 +346,29 @@ export type BibTeXTidyResult = {
 	count: number;
 };
 export declare function tidy(input: string, options_?: Options): BibTeXTidyResult;
+declare class BlockNode$1 {
+	type: "block";
+	kind: "root" | "square" | "curly";
+	parent?: BlockNode$1 | CommandNode;
+	children: (TextNode$1 | CommandNode | BlockNode$1)[];
+	constructor(kind: BlockNode$1["kind"], parent?: BlockNode$1["parent"], children?: BlockNode$1["children"]);
+	renderAsText(): string;
+}
+declare class TextNode$1 {
+	type: "text";
+	parent: BlockNode$1;
+	text: string;
+	constructor(parent: BlockNode$1, text?: string);
+	renderAsText(): string;
+}
+declare class CommandNode {
+	type: "command";
+	parent: BlockNode$1;
+	command: string;
+	args: BlockNode$1[];
+	constructor(parent: BlockNode$1, command?: string, args?: BlockNode$1[]);
+	renderAsText(): string;
+}
+export declare function parseLaTeX(input: string): BlockNode$1;
 
 export {};

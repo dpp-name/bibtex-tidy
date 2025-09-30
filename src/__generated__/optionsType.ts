@@ -195,6 +195,12 @@ export type BibTeXTidyOptions = {
 	 */
 	lowercaseFields?: boolean;
 	/**
+	 * Capitalize entry types
+	 *
+	 * Capitalize entry types: `Article`, `InCollection`, `PhDThesis`. Disabled by default.
+	 */
+	capitalizeEntryTypes?: boolean;
+	/**
 	 * Enclose values in double braces
 	 *
 	 * Enclose the given fields in double braces, such that case is preserved during BibTeX compilation.

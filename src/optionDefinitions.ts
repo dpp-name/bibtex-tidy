@@ -483,6 +483,15 @@ export const optionDefinitions: OptionDefinition[] = [
 		type: "boolean",
 		defaultValue: false,
 	},
+    {
+		key: "capitalizeEntryTypes",
+		cli: { "--capitalize-entry-types": false },
+		toCLI: (val) => (val === false ? "--capitalize-entry-types" : undefined),
+		title: "Capitalize entry types",
+		description: ["Capitalize entry types: `Article`, `InCollection`, `PhDThesis`. Disabled by default."],
+		type: "boolean",
+		defaultValue: false,
+	},
 	{
 		key: "enclosingBraces",
 		cli: {

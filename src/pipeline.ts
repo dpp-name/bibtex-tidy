@@ -27,6 +27,7 @@ import { createSortEntriesTransform } from "./transforms/sortEntries.ts";
 import { createSortFieldsTransform } from "./transforms/sortFields.ts";
 import { createWrapValuesTransform } from "./transforms/wrapValues.ts";
 import type { Transform } from "./types.ts";
+import {createCapitalizeEntryTypesTransform} from "./transforms/capitalizeEntryTypes.ts";
 
 function sortPipeline(Transforms: Transform[]): Transform[] {
 	const sorted: Transform[] = [];
@@ -83,6 +84,9 @@ export function generateTransformPipeline(
 	}
     if (options.lowercaseFields) {
 		pipeline.push(createLowercaseFieldsTransform());
+	}
+    if (options.capitalizeEntryTypes) {
+		pipeline.push(createCapitalizeEntryTypesTransform());
 	}
 	if (options.merge || options.duplicates) {
 		pipeline.push(

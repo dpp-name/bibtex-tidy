@@ -213,6 +213,10 @@ bibtex-tidy references.bib
   --lowercase-fields
       Lowercase field names only. Disabled by default.
       
+  --capitalize-entry-types
+      Capitalize entry types: `Article`, `InCollection`, `PhDThesis`. Disabled by
+      default.
+      
   --enclosing-braces
       Enclose the given fields in double braces, such that case is preserved during
       BibTeX compilation.
