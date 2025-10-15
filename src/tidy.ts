@@ -40,5 +40,5 @@ export function tidy(input: string, options_: Options = {}): BibTeXTidyResult {
 
 	const bibtex = formatBibtex(ast);
 
-	return { bibtex, warnings, count: cache.entries().length };
+	return { ast, bibtex, warnings, count: cache.entries().length };
 }

@@ -1,5 +1,6 @@
 import type { ASTProxy } from "./ASTProxy.ts";
 import type { DuplicateRule } from "./optionUtils.ts";
+import type { RootNode } from "./parsers/bibtexParser.ts";
 
 export type Transform = {
 	name: string;
@@ -15,6 +16,7 @@ export type Warning = (
 };
 
 export type BibTeXTidyResult = {
+    ast: RootNode;
 	bibtex: string;
 	warnings: Warning[];
 	count: number;

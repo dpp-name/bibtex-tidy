@@ -332,6 +332,20 @@ declare class QuotedNode {
 	constructor(parent: ConcatNode);
 }
 export declare function parseBibTeX(input: string): RootNode;
+export declare class ASTProxy {
+	#private;
+	constructor(ast: RootNode);
+	root(): RootNode;
+	fields(): FieldNode[];
+	entries(): EntryNode[];
+	invalidateField(field: FieldNode): void;
+	private fieldLookup;
+	private lookupField;
+	private renderValueLookup;
+	lookupRenderedEntryValue(entry: EntryNode, fieldname: string): string;
+	lookupRenderedEntryValue(field: FieldNode): string;
+	lookupRenderedEntryValues(entry: EntryNode): Map<string, string>;
+}
 export type Warning = ({
 	code: "MISSING_KEY";
 } | {
@@ -341,6 +355,7 @@ export type Warning = ({
 	message: string;
 };
 export type BibTeXTidyResult = {
+	ast: RootNode;
 	bibtex: string;
 	warnings: Warning[];
 	count: number;
@@ -370,5 +385,6 @@ declare class CommandNode {
 	renderAsText(): string;
 }
 export declare function parseLaTeX(input: string): BlockNode$1;
+export declare function formatBibtex(ast: RootNode): string;
 
 export {};

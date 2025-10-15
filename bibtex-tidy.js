@@ -5048,6 +5048,9 @@ function generateTransformPipeline(options) {
   if (options.capitalizeEntryTypes) {
     pipeline.push(createCapitalizeEntryTypesTransform());
   }
+  if (options.sort) {
+    pipeline.push(createSortEntriesTransform(options.sort));
+  }
   if (options.merge || options.duplicates) {
     pipeline.push(
       createMergeEntriesTransform(options.duplicates, options.merge)
@@ -5076,9 +5079,6 @@ function generateTransformPipeline(options) {
   }
   if (options.removeEmptyFields) {
     pipeline.push(createRemoveEmptyFieldsTransform());
-  }
-  if (options.sort) {
-    pipeline.push(createSortEntriesTransform(options.sort));
   }
   if (options.sortFields) {
     pipeline.push(createSortFieldsTransform(options.sortFields));
@@ -5125,10 +5125,12 @@ function tidy(input, options_ = {}) {
     if (result) warnings.push(...result);
   }
   const bibtex = formatBibtex(ast);
-  return { bibtex, warnings, count: cache.entries().length };
+  return { ast, bibtex, warnings, count: cache.entries().length };
 }
 __name(tidy, "tidy");
 export {
+  ASTProxy,
+  formatBibtex,
   parseBibTeX,
   parseLaTeX,
   tidy
