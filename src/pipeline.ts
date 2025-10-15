@@ -88,6 +88,9 @@ export function generateTransformPipeline(
     if (options.capitalizeEntryTypes) {
 		pipeline.push(createCapitalizeEntryTypesTransform());
 	}
+    if (options.sort) {
+		pipeline.push(createSortEntriesTransform(options.sort));
+	}
 	if (options.merge || options.duplicates) {
 		pipeline.push(
 			createMergeEntriesTransform(options.duplicates, options.merge),
@@ -116,9 +119,6 @@ export function generateTransformPipeline(
 	}
 	if (options.removeEmptyFields) {
 		pipeline.push(createRemoveEmptyFieldsTransform());
-	}
-	if (options.sort) {
-		pipeline.push(createSortEntriesTransform(options.sort));
 	}
 	if (options.sortFields) {
 		pipeline.push(createSortFieldsTransform(options.sortFields));
