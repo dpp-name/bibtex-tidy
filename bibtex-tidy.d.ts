@@ -238,19 +238,19 @@ export type BibTeXTidyOptions = {
 };
 export type Options = Omit<BibTeXTidyOptions, "help" | "version" | "quiet" | "backup">;
 export type DuplicateRule = Exclude<BibTeXTidyOptions["duplicates"], boolean | undefined>[number];
-declare class RootNode {
+export declare class RootNode {
 	type: "root";
 	children: (TextNode | BlockNode)[];
 	constructor(children?: (TextNode | BlockNode)[]);
 }
-declare class TextNode {
+export declare class TextNode {
 	type: "text";
 	parent: RootNode;
 	text: string;
 	whitespacePrefix: string;
 	constructor(parent: RootNode, text: string, whitespacePrefix: string);
 }
-declare class BlockNode {
+export declare class BlockNode {
 	type: "block";
 	command: string;
 	block?: CommentNode | PreambleNode | StringNode | EntryNode;
@@ -258,7 +258,7 @@ declare class BlockNode {
 	whitespacePrefix: string;
 	constructor(parent: RootNode, whitespacePrefix: string);
 }
-declare class CommentNode {
+export declare class CommentNode {
 	type: "comment";
 	parent: BlockNode;
 	raw: string;
@@ -282,7 +282,7 @@ declare class StringNode {
 	parens: number;
 	constructor(parent: BlockNode, raw: string, braces: number, parens: number);
 }
-declare class EntryNode {
+export declare class EntryNode {
 	type: "entry";
 	key?: string;
 	keyEnded?: boolean;
@@ -291,7 +291,7 @@ declare class EntryNode {
 	wrapType: "{" | "(";
 	constructor(parent: BlockNode, wrapType: "{" | "(");
 }
-declare class FieldNode {
+export declare class FieldNode {
 	type: "field";
 	/** Each value is concatenated */
 	value: ConcatNode;
@@ -301,7 +301,7 @@ declare class FieldNode {
 	whitespacePrefix: string;
 	constructor(parent: EntryNode, name?: string, whitespacePrefix?: string);
 }
-declare class ConcatNode {
+export declare class ConcatNode {
 	type: "concat";
 	concat: (LiteralNode | BracedNode | QuotedNode)[];
 	canConsumeValue: boolean;
@@ -309,13 +309,13 @@ declare class ConcatNode {
 	parent: FieldNode;
 	constructor(parent: FieldNode);
 }
-declare class LiteralNode {
+export declare class LiteralNode {
 	type: "literal";
 	parent: ConcatNode;
 	value: string;
 	constructor(parent: ConcatNode, value: string);
 }
-declare class BracedNode {
+export declare class BracedNode {
 	type: "braced";
 	value: string;
 	/** Used to count opening and closing braces */
@@ -323,7 +323,7 @@ declare class BracedNode {
 	parent: ConcatNode;
 	constructor(parent: ConcatNode);
 }
-declare class QuotedNode {
+export declare class QuotedNode {
 	type: "quoted";
 	value: string;
 	/** Used to count opening and closing braces */
@@ -331,6 +331,7 @@ declare class QuotedNode {
 	parent: ConcatNode;
 	constructor(parent: ConcatNode);
 }
+type Node$1 = RootNode | TextNode | BlockNode | EntryNode | CommentNode | PreambleNode | StringNode | FieldNode | ConcatNode | LiteralNode | BracedNode | QuotedNode;
 export declare function parseBibTeX(input: string): RootNode;
 export declare class ASTProxy {
 	#private;
@@ -386,5 +387,9 @@ declare class CommandNode {
 }
 export declare function parseLaTeX(input: string): BlockNode$1;
 export declare function formatBibtex(ast: RootNode): string;
+
+export {
+	Node$1 as Node,
+};
 
 export {};
