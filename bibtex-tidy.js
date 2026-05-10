@@ -5130,6 +5130,7 @@ function tidy(input, options_ = {}) {
 __name(tidy, "tidy");
 export {
   ASTProxy,
+  BibTeXSyntaxError,
   formatBibtex,
   parseBibTeX,
   parseLaTeX,

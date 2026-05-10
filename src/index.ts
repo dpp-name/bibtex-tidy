@@ -13,7 +13,7 @@ export type {
     BracedNode,
     QuotedNode
 } from "./parsers/bibtexParser.ts";
-export { parseBibTeX } from "./parsers/bibtexParser.ts";
+export { parseBibTeX, BibTeXSyntaxError } from "./parsers/bibtexParser.ts";
 export { parseLaTeX } from "./parsers/latexParser.ts";
 export { ASTProxy } from "./ASTProxy.ts";
 export { formatBibtex } from "./format.ts";

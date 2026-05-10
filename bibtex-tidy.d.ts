@@ -333,6 +333,14 @@ export declare class QuotedNode {
 }
 type Node$1 = RootNode | TextNode | BlockNode | EntryNode | CommentNode | PreambleNode | StringNode | FieldNode | ConcatNode | LiteralNode | BracedNode | QuotedNode;
 export declare function parseBibTeX(input: string): RootNode;
+export declare class BibTeXSyntaxError extends Error {
+	char: string;
+	pos: number;
+	line: number;
+	column: number;
+	hint?: string;
+	constructor(input: string, node: Node$1, pos: number, line: number, column: number, hint?: string);
+}
 export declare class ASTProxy {
 	#private;
 	constructor(ast: RootNode);
